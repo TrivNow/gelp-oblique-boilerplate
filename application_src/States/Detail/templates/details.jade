@@ -1,0 +1,14 @@
+//
+   Created by monstertke on 9/12/16.
+
+pre $scope.details
+h4 {{details}}
+
+a(ui-sref="root.welcome") Home...
+
+br
+
+a(ui-sref="root.details.more") Nested view...
+
+// Add in a ui-view to create a nested scope
+ui-view

@@ -1,0 +1,37 @@
+{
+  "name": "gelp-oblique-boilerplate",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "pomegranate start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TrivNow/gelp-oblique-boilerplate.git"
+  },
+  "author": "Jim <monstertke@paperelectron.com> (http://paperelectron.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TrivNow/gelp-oblique-boilerplate/issues"
+  },
+  "homepage": "https://github.com/TrivNow/gelp-oblique-boilerplate#readme",
+  "devDependencies": {
+    "browserify": "^13.1.0",
+    "gulp": "^3.9.1",
+    "gulp-jade": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.7",
+    "gulp-watch": "^4.3.9",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.7.0"
+  },
+  "dependencies": {
+    "pomegranate": "^4.0.2",
+    "pomegranate-express": "^1.0.1",
+    "pomegranate-express-jade": "^1.0.0"
+  }
+}
