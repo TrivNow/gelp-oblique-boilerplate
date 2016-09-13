@@ -32,21 +32,34 @@ var paths = {
     outFile: 'app.js',
     js_output: './application/public/js',
     html_output: './application/public/html',
-    templates: './application_src/**/*.jade'
+    jade_templates: './application_src/**/*.jade',
+    html_templates: './application_src/**/*.html'
   }
 };
 
 gulp.task('build-client', function() {
   buildClientFile(false)
 })
-
 gulp.task('watch-client', function() {
   buildClientFile(true)
 })
+gulp.task('build-templates', function() {
+  packageTemplates()
+  copyTemplates()
+})
+
+function copyTemplates(fileOrMessage) {
+  fileOrMessage && gutil.log(gutil.colors.green('Html: ' + fileOrMessage ));
+  gulp.src(paths.angular.html_templates)
+    .pipe(rename(function(path){
+      path.dirname = path.dirname.replace(/templates/, '')
+    }))
+    .pipe(gulp.dest(paths.angular.html_output))
+}
 
 function packageTemplates(fileOrMessage, platform){
   fileOrMessage && gutil.log(gutil.colors.green('Jade: ' + fileOrMessage ));
-  gulp.src(paths.angular.templates)
+  gulp.src(paths.angular.jade_templates)
     .pipe(jade({
       pretty: true,
       locals: {platform: platform || 'ios'}
@@ -58,7 +71,7 @@ function packageTemplates(fileOrMessage, platform){
 }
 
 function buildClientFile(watchFiles) {
-  var bundler, jadeTemplates;
+  var bundler, jadeTemplates, htmlTemplates;
   bundler = browserify({
     basedir: paths.angular.base,
     extensions: [".js", ".json"],
@@ -88,12 +101,18 @@ function buildClientFile(watchFiles) {
 
   if (watchFiles) {
     bundler = watchify(bundler);
-    jadeTemplates = watch(paths.angular.templates)
+    jadeTemplates = watch(paths.angular.jade_templates)
     jadeTemplates
       .on('change', packageTemplates)
       .on('add', packageTemplates)
 
+    htmlTemplates = watch(paths.angular.html_templates)
+    htmlTemplates
+      .on('change', copyTemplates)
+      .on('add', copyTemplates)
+
     bundler.on("update", runBundle).on("log", gutil.log.bind(gutil, gutil.colors.cyan('Browserify')));
+    copyTemplates('Watcher Starting')
     packageTemplates('Watcher Starting');
   }
   bundler.add(paths.angular.entry);
